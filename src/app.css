@@ -1,0 +1,220 @@
+:root {
+  --bg: #0b0508;
+  --panel: rgba(24, 12, 18, 0.78);
+  --panel-solid: #1a0d14;
+  --line: rgba(216, 182, 106, 0.22);
+  --text: #f3e7d3;
+  --muted: #bba68c;
+  --accent: #d8b66a;
+  --accent-ink: #1a0d14;
+  --glow: rgba(255, 190, 110, 0.35);
+  --serif: 'Crimson Pro Variable', 'Crimson Pro', 'Iowan Old Style', Georgia, serif;
+  --display: 'Marcellus SC', Georgia, serif;
+  /* type scale (root is 17px). Reading text follows the user's text-size setting. */
+  --read-scale: 1;
+  --fs-label: 0.7rem;   /* Marcellus small-caps labels and button text */
+  --fs-xs: 0.8rem;      /* captions, counts */
+  --fs-sm: 0.92rem;     /* secondary text */
+  --fs-base: 1rem;      /* interface text */
+  --fs-md: 1.1rem;      /* lead lines, list titles */
+  --fs-read: calc(1.14rem * var(--read-scale));   /* stories, notes, meanings */
+  --fs-title: calc(1.5rem * var(--read-scale));   /* card names, italic */
+  --fs-h2: 1.6rem;      /* sheet titles */
+  --lh-read: 1.58;
+  --radius: 18px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  color-scheme: dark;
+  /* Marcellus SC has a single weight: never let the browser fake a bold */
+  font-synthesis-weight: none;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--serif);
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
+}
+
+#app {
+  position: fixed;
+  inset: 0;
+}
+
+/* ── finer typesetting ── */
+html {
+  font-kerning: normal;
+  font-optical-sizing: auto;
+  text-rendering: optimizeLegibility;
+  hanging-punctuation: first allow-end; /* Safari: opening quotes hang into the margin */
+}
+
+p {
+  /* no lone last words, old-style figures that sit in the line like lowercase */
+  text-wrap: pretty;
+  font-variant-numeric: oldstyle-nums proportional-nums;
+  font-variant-ligatures: common-ligatures contextual;
+  overflow-wrap: break-word;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+/* A card's name, wherever it is a heading: larger, italic, literary. */
+.card-name {
+  font-style: italic;
+  font-weight: 500;
+  font-size: var(--fs-title);
+  line-height: 1.12;
+  letter-spacing: -0.005em;
+}
+
+.card-name .rv {
+  font-size: 0.7em;
+  font-weight: 400;
+  color: var(--muted);
+  letter-spacing: 0;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+}
+
+.eyebrow {
+  font-family: var(--display);
+  font-size: var(--fs-label);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  min-height: 52px;
+  padding: 0 1.6em;
+  border-radius: 999px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 100%, white 18%), var(--accent));
+  color: var(--accent-ink);
+  font-family: var(--display);
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15) inset, 0 8px 30px var(--glow);
+  transition: transform 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out), opacity 0.25s;
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
+}
+
+.btn-primary:disabled {
+  opacity: 0.4;
+  box-shadow: none;
+  cursor: default;
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  min-height: 44px;
+  padding: 0 1.1em;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--text);
+  font-family: var(--display);
+  font-size: var(--fs-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: background 0.2s, transform 0.2s var(--ease-out);
+}
+
+.btn-ghost:active {
+  transform: scale(0.97);
+}
+
+.btn-ghost:hover {
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  transition: all 0.25s var(--ease-out);
+}
+
+.chip[aria-pressed='true'] {
+  color: var(--accent-ink);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.scroll-x {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.scroll-x::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
