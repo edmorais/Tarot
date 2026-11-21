@@ -2,13 +2,15 @@
 
 Tarot readings on a candlelit table. Choose a spread, shuffle the deck, draw your cards and turn them one by one. As each card turns, a narrator tells you its story, and at the end the whole spread is read as one tale.
 
+**Open Arcana: <https://edmorais.github.io/Tarot/>**
+
 Arcana works best on a phone, but it also runs on a tablet or a computer. Once it is installed, it works offline.
 
 *Building or changing the app? See [Developers.md](Developers.md).*
 
 ## Install it on your phone
 
-Open Arcana in your phone's browser, then add it to your home screen:
+Open [edmorais.github.io/Tarot](https://edmorais.github.io/Tarot/) in your phone's browser, then add it to your home screen:
 
 - **iPhone or iPad (Safari):** tap **Share**, then **Add to Home Screen**.
 - **Android (Chrome):** tap **Install** when it is offered, or open the **⋮** menu and choose **Add to Home screen**.

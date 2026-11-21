@@ -19,6 +19,19 @@ npm run build
 
 `npm run build` produces an installable PWA in `dist/`, which you can host on any static host. `npm run preview` serves the build locally on port 4173, and `npm run check` runs the type checker (svelte-check).
 
+## Deploy
+
+Every push to `master` publishes the app to GitHub Pages at <https://edmorais.github.io/Tarot/>, through `.github/workflows/deploy.yml`. The workflow type-checks, builds, and uploads `dist/`. To run it by hand, open **Actions → Deploy to GitHub Pages → Run workflow** on GitHub.
+
+The build uses relative paths (`base: './'`), so it works under any sub-path. To try it the way Pages serves it:
+
+```powershell
+npm run build
+npx vite preview --base /Tarot/
+```
+
+Then open <http://localhost:4173/Tarot/>.
+
 ## Card art
 
 ### Scanned decks
