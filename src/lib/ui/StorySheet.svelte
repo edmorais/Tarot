@@ -18,12 +18,14 @@
   const next = $derived(reading.spread.positions[reading.revealed]);
   const saved = $derived(reading.phase === 'done' ? journal.get(reading.id) : undefined);
 
+  // when a new chapter arrives, bring its first line to the top of the panel (never jump to the end):
+  // .body is the offsetParent, so offsetTop is the chapter's place in the scrolled text
   $effect(() => {
     const n = reading.chapters.length;
     if (!n || !body) return;
     void tick().then(() => {
       const last = body?.querySelector<HTMLElement>('article:last-of-type');
-      if (last && body) body.scrollTo({ top: last.offsetTop - 8, behavior: 'smooth' });
+      if (last && body) body.scrollTo({ top: Math.max(0, last.offsetTop - 8), behavior: 'smooth' });
     });
   });
 
@@ -182,6 +184,7 @@
     font-size: var(--fs-xs);
   }
   .body {
+    position: relative; /* offsetParent for the chapters, so scrolling lands on a chapter's first line */
     flex: 1;
     overflow-y: auto;
     padding: 6px 18px 24px;
