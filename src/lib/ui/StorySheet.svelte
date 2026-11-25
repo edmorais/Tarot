@@ -98,6 +98,10 @@
       <button class="btn-primary" onclick={() => reading.revealNext()} disabled={reading.busy}>
         Turn · {next.label}
       </button>
+    {:else if reading.allTurned}
+      <button class="btn-primary whole" onclick={() => reading.revealWhole()} disabled={reading.busy} in:fade={{ duration: 400 }}>
+        <Icon name="star" size={16} /> Hear the whole reading
+      </button>
     {:else if reading.phase === 'done'}
       <div class="done">
         {#if saved}
@@ -263,6 +267,12 @@
   footer .btn-primary {
     width: 100%;
     max-width: 420px;
+  }
+  .whole {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
   }
   .done {
     width: 100%;

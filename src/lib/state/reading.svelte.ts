@@ -150,8 +150,12 @@ class Reading {
     void rig.stowDeck();
   }
 
+  /** every card is face up, and the reading as a whole waits for one more tap */
+  allTurned = $derived(this.phase === 'reveal' && this.revealed >= this.total);
+
   async revealNext() {
     if (this.phase !== 'reveal' || this.busy) return;
+    if (this.allTurned) return this.revealWhole();
     this.busy = true;
     const i = this.revealed;
     rig.glowSlot = -1;
@@ -159,10 +163,7 @@ class Reading {
     this.chapters = [...this.chapters, chapterFor(this.storyInput(), i)];
     this.revealed = i + 1;
     if (this.revealed >= this.total) {
-      await new Promise((r) => setTimeout(r, 500));
-      this.chapters = [...this.chapters, synthesisFor(this.storyInput())];
-      this.phase = 'done';
-      sfx.chime();
+      // the spread is complete, so keep it now, even if the reader leaves before the whole is told
       journal.add({
         id: this.id, createdAt: Date.now(), spread: this.spread, deck: settings.deck,
         narrator: settings.narrator, drawn: this.drawn,
@@ -173,15 +174,21 @@ class Reading {
     this.busy = false;
   }
 
+  /** The reading as a whole: the narrator brings the cards together. */
+  revealWhole() {
+    if (!this.allTurned || this.busy) return;
+    this.chapters = [...this.chapters, synthesisFor(this.storyInput())];
+    this.phase = 'done';
+    sfx.chime();
+  }
+
   /** Re-tell the story when the narrator changes mid-reading. */
   retell() {
     if (this.phase !== 'reveal' && this.phase !== 'done') return;
     const input = this.storyInput();
     const ch = Array.from({ length: this.revealed }, (_, i) => chapterFor(input, i));
-    if (this.phase === 'done') {
-      ch.push(synthesisFor(input));
-      journal.update(this.id, { narrator: settings.narrator });
-    }
+    if (this.phase === 'done') ch.push(synthesisFor(input));
+    if (this.revealed >= this.total) journal.update(this.id, { narrator: settings.narrator });
     this.chapters = ch;
   }
 
